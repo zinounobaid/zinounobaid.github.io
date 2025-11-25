@@ -1,0 +1,18 @@
+---
+layout: default
+title: "Sheet Metal Mold"
+summary: "Redesigned a sheet metal bracket to reduce cracking from ~8% to <1% without increasing cost."
+tags: ["CAD", "Sheet Metal", "DFM"]
+in_projects_index: true
+order: 1        # optional now, date will control order
+date: 2021-06-15
+---
+
+<article>
+  <h2>Sheet Metal Bracket Redesign</h2>
+  <p><strong>Date:</strong> June 2021</p>
+  <p><strong>Role:</strong> Mechanical Engineer (personal project case study)</p>
+  <p><strong>Tools:</strong> SolidWorks, basic FEA, hand calculations</p>
+
+  <!-- Problem / Approach / Results sections here -->
+</article>
