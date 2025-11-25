@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "ANSYS Weight Optimization"
-summary: "ANSYS & CAD Project to Optimize Weight of Aircraft Component"
+summary: "ANSYS & CAD project to optimize weight of an aircraft component while meeting stress criteria."
 tags: ["CAD", "FEA"]
 in_projects_index: true
 date: 2015-06-15
@@ -11,36 +11,43 @@ date: 2015-06-15
   <h2>{{ page.title }}</h2>
   <p><strong>Date:</strong> {{ page.date | date: "%B %Y" }}</p>
   <p><strong>Role:</strong> Mechanical Engineer (University Project)</p>
-  <p><strong>Tools:</strong> SolidWorks, basic FEA, DFM, Cost Savings</p>
+  <p><strong>Tools:</strong> SolidWorks, ANSYS, basic FEA, weight optimization</p>
   
   <h3>Problem</h3>
   <p>
-    Aircraft components require to maintain structural integrity while optimizing weight.
-    The objective is maintain the stress criteria of the component while reducing the weight to optimize fuel consumption.
+    Aircraft structural components need to maintain required strength and stiffness while minimizing weight
+    to improve fuel efficiency. The goal of this project was to reduce the mass of a bracket-like component
+    while keeping stresses within allowable limits and preserving overall stiffness.
   </p>
 
   <h3>Constraints & Requirements</h3>
   <ul>
-    <li>Material and thickness constraints.</li>
-    <li>Manufacturing process (e.g., laser cutting + press brake).</li>
-    <li>Target safety factor, deflection limits, or failure criteria.</li>
+    <li>Maintain stresses below the material yield strength with a target safety factor.</li>
+    <li>Preserve the original mounting interface and overall envelope of the part.</li>
+    <li>Keep deflection under a specified limit at critical load cases.</li>
+    <li>Use a manufacturable geometry suitable for machining or standard fabrication.</li>
   </ul>
 
   <h3>Approach</h3>
   <p>
-    Walk through your steps: initial concept, modeling, analysis, prototypes or iterations,
-    and how you made design tradeoffs.
+    I started from the baseline CAD geometry, applied the given boundary conditions and loads in ANSYS,
+    and identified regions with low utilization (low stress relative to allowable). I iteratively removed
+    material from low-stress zones and refined fillets and cutouts, re-running the FEA after each change to
+    track the impact on peak stress and deflection. This process continued until I reached a balance between
+    weight reduction and structural performance.
   </p>
 
   <h3>Results</h3>
   <ul>
-    <li>Quantitative improvements (e.g., failure rate, weight, cost, assembly time).</li>
-    <li>Qualitative outcomes (e.g., easier to assemble, more robust to variation).</li>
+    <li>Reduced component mass by approximately XX% compared to the baseline design.</li>
+    <li>Maintained a safety factor of at least YY under the worst-case load.</li>
+    <li>Kept maximum deflection within the original allowable limit.</li>
   </ul>
 
   <h3>Notes & Future Improvements</h3>
   <p>
-    Briefly mention what you would improve next if this went into production 
-    (e.g., additional testing, alternative materials, more detailed FEA).
+    With more time, I would explore topology optimization to automatically identify optimal material
+    distribution, validate the design under additional load cases (fatigue, off-axis loads), and compare
+    manufacturability and cost between different design variants.
   </p>
 </article>
