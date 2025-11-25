@@ -8,19 +8,26 @@ title: "Projects – Zinoun Obaid"
   <p>
     Selected engineering and personal projects. Each page walks through the problem, approach, and results.
   </p>
+
   <ul class="project-list">
-    <li class="project">
-      <h3>
-        <a href="/projects/project-title-placeholder.html">
-          Project Title Placeholder
-        </a>
-      </h3>
-      <p>Short teaser about what this project is (e.g., sheet metal redesign, thermal analysis, fixture design).</p>
-      <div>
-        <span class="pill">CAD</span>
-        <span class="pill">FEA</span>
-        <span class="pill">Manufacturing</span>
-      </div>
-    </li>
+    {% assign projects = site.pages | where:"in_projects_index", true | sort:"order" %}
+    {% for project in projects %}
+      <li class="project">
+        <h3>
+          <a href="{{ project.url }}">{{ project.title }}</a>
+        </h3>
+        {% if project.summary %}
+          <p>{{ project.summary }}</p>
+        {% endif %}
+
+        {% if project.tags %}
+          <div>
+            {% for tag in project.tags %}
+              <span class="pill">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
   </ul>
 </section>
