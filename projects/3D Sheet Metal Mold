@@ -4,7 +4,6 @@ title: "Sheet Metal Mold"
 summary: "Redesigned a sheet metal bracket to reduce cracking from ~8% to <1% without increasing cost."
 tags: ["CAD", "Sheet Metal", "DFM"]
 in_projects_index: true
-order: 1        # optional now, date will control order
 date: 2021-06-15
 ---
 
