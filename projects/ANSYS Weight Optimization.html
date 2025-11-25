@@ -1,10 +1,10 @@
 ---
 layout: default
 title: "ANSYS Weight Optimization"
-summary: "ANSYS & CAD project to optimize weight of an aircraft component while meeting stress criteria."
-tags: ["CAD", "FEA"]
+summary: "ANSYS & CAD project to optimize weight of an aircraft component while meeting stress limits."
+tags: ["CAD", "FEA", "Optimization"]
 in_projects_index: true
-date: 2016-03-15
+date: 2016-04-01
 ---
 
 <article>
@@ -12,135 +12,134 @@ date: 2016-03-15
   <p><strong>Date:</strong> {{ page.date | date: "%B %Y" }}</p>
   <p><strong>Role:</strong> Mechanical Engineer (University Project)</p>
   <p><strong>Tools:</strong> SolidWorks, ANSYS, basic FEA, weight optimization</p>
-  
-  <h3>Problem</h3>
+
+  <h3>Overview</h3>
   <p>
-    Aircraft structural components need to maintain required strength and stiffness while minimizing weight
-    to improve fuel efficiency. The goal of this project was to reduce the mass of a bracket-like component
-    while keeping stresses within allowable limits and preserving overall stiffness.
+    The goal of this project was to reduce the mass of a lever-like aircraft component
+    while maintaining structural integrity under three critical load cases. Using 
+    CAD and FEA in ANSYS, I iteratively removed material from low-stress regions, 
+    validating each design against stress and deflection limits.
   </p>
 
-  <h3>Constraints & Requirements</h3>
+  <!-- BEFORE / AFTER ROW TO BREAK UP TEXT -->
+  <div class="image-row">
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-baseline-supports.png" 
+        alt="Baseline lever geometry with bolt-hole supports defined in ANSYS">
+      <figcaption>Baseline geometry with realistic bolt-hole supports defined.</figcaption>
+    </figure>
+
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-final-geometry.png" 
+        alt="Final optimized geometry with material removed from low-stress regions">
+      <figcaption>Final optimized geometry after iterative weight reduction.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Problem</h3>
+  <p>
+    Aircraft components must stay within allowable stress and deflection limits while 
+    being as light as possible to improve fuel efficiency. The starting design met 
+    the structural requirements but was heavier than necessary. The task was to 
+    reduce weight without exceeding allowable stress or deflection under:
+  </p>
   <ul>
-    <li>Maintain stresses below the material yield strength with a target safety factor.</li>
-    <li>Preserve the original mounting interface and overall envelope of the part.</li>
-    <li>Keep deflection under a specified limit at critical load cases.</li>
-    <li>Use a manufacturable geometry suitable for machining or standard fabrication.</li>
+    <li>1,250 lb horizontal load at the eye of the lever</li>
+    <li>1,875 lb load at 45° (combined horizontal + vertical)</li>
+    <li>2,500 lb vertical load at the eye</li>
   </ul>
 
-<h3>Approach</h3>
-<p>
-  I began with the baseline CAD geometry and imported it into ANSYS to understand the stress 
-  distribution under three critical load cases (horizontal, 45° angled, and vertical loading at 
-  the eye of the lever). To realistically represent the boundary conditions, I fixed the contact 
-  areas at the bolt holes rather than the entire bottom surface, since that region was a candidate 
-  for future material removal.
-</p>
-<p>
-  For the initial runs I used a normal mesh to quickly identify low-stress regions across all 
-  three load cases. Based on those results, I iteratively removed material from consistently 
-  under-utilized areas in SolidWorks, exported the updated geometry as a STEP file, and 
-  re-imported it into ANSYS for re-analysis. To maintain accuracy as the geometry evolved, 
-  I applied a refined global body sizing (0.1 in element size) with fine mesh settings and 
-  then checked mesh quality plots to confirm that most elements were high quality, with only 
-  a small number of lower-quality elements near the load application region.
-</p>
-<p>
-  Each design iteration followed a repeatable loop: update CAD → regenerate mesh with the 
-  refined settings → apply boundary conditions and loads → solve for Von Mises stress and 
-  deflection → verify that maximum stress remained below the allowable limit with an 
-  acceptable factor of safety. If an iteration exceeded allowable stress, I reverted the last 
-  material cut and explored alternative regions for weight reduction.
-</p>
+  <h3>Approach</h3>
+  <p>
+    I imported the baseline CAD into ANSYS and defined realistic boundary conditions 
+    by fixing only the bolt-hole contact regions instead of the entire bottom face, 
+    since that area was a candidate for future material removal.
+  </p>
+  <ul>
+    <li>
+      Ran initial analyses with a normal mesh to identify low-stress regions that were
+      good candidates for material removal.
+    </li>
+    <li>
+      Iteratively removed material in SolidWorks from consistently low-stress regions,
+      exported the updated geometry, and re-ran FEA for all three load cases.
+    </li>
+    <li>
+      Refined the mesh using a global body sizing of 0.1 in and checked mesh quality
+      plots to ensure the optimized design was still well-resolved.
+    </li>
+    <li>
+      After each iteration, compared maximum Von Mises stress and deflection against
+      allowable limits and reverted or adjusted cuts if stresses increased too much.
+    </li>
+  </ul>
 
+  <h3>Results</h3>
+  <ul>
+    <li>
+      Reduced part mass from <strong>110.86 g</strong> to <strong>48.51 g</strong>, 
+      a weight reduction of approximately <strong>56%</strong>.
+    </li>
+    <li>
+      Maintained a maximum Von Mises stress below material yield, with an overall 
+      factor of safety of about <strong>1.03</strong> (145 ksi allowable vs. ~140 ksi max).
+    </li>
+    <li>
+      Kept deflection within the original allowable limits for all three load cases.
+    </li>
+    <li>
+      Achieved high mesh quality in the final design, with only a small region of 
+      lower-quality elements localized near the applied load.
+    </li>
+  </ul>
 
-<h3>Results</h3>
-<ul>
-  <li>
-    Reduced the part mass from <strong>110.86 g</strong> to <strong>48.51 g</strong>, 
-    a net weight reduction of approximately <strong>56%</strong>, while maintaining 
-    structural performance under all specified load cases.
-  </li>
-  <li>
-    Verified that the maximum Von Mises stress in each load case remained below the 
-    material yield strength, with an overall factor of safety of approximately 
-    <strong>1.03</strong> based on the ratio of yield stress (145 ksi) to peak 
-    simulated stress (140 ksi).
-  </li>
-  <li>
-    Confirmed good mesh quality on the final design, with the vast majority of elements 
-    in the highest quality range and only a small cluster of lower-quality elements 
-    localized near the load application region.
-  </li>
-  <li>
-    Demonstrated a systematic workflow for simulation-driven weight optimization 
-    (boundary condition definition, mesh refinement, stress interpretation, and 
-    iterative geometry updates) that can be applied to other components.
-  </li>
-</ul>
-<h3>Gallery</h3>
-<div class="image-grid">
+  <h3>Gallery</h3>
+  <div class="image-grid">
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-baseline-supports.png" 
-      alt="Baseline geometry with bolt-hole contact regions selected as fixed supports in ANSYS">
-    <figcaption>Baseline lever geometry with realistic bolt-hole supports defined.</figcaption>
-  </figure>
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-initial-mesh.png" 
+        alt="Initial finite element mesh on the baseline part">
+      <figcaption>Initial mesh used to identify low-stress regions on the baseline design.</figcaption>
+    </figure>
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-initial-mesh.png" 
-      alt="Initial finite element mesh on the baseline part">
-    <figcaption>Initial mesh on the baseline part used to identify low-stress regions.</figcaption>
-  </figure>
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-final-mesh-quality.png" 
+        alt="Mesh quality plot for the optimized geometry">
+      <figcaption>Final mesh quality plot for the optimized geometry.</figcaption>
+    </figure>
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-final-geometry.png" 
-      alt="Final optimized geometry with material removed from low-stress regions">
-    <figcaption>Final optimized geometry after iterative material removal.</figcaption>
-  </figure>
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-loadcase1-1250lb-horizontal.png" 
+        alt="Von Mises stress plot for 1250 lb horizontal load">
+      <figcaption>Load Case 1: 1,250 lb horizontal load at the eye.</figcaption>
+    </figure>
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-final-mesh-quality.png" 
-      alt="Mesh quality plot showing high-quality elements on the optimized geometry">
-    <figcaption>Mesh quality plot for the optimized design with mostly high-quality elements.</figcaption>
-  </figure>
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-loadcase2-1875lb-45deg.png" 
+        alt="Von Mises stress plot for 1875 lb load at 45 degrees">
+      <figcaption>Load Case 2: 1,875 lb load applied at 45°.</figcaption>
+    </figure>
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-loadcase1-1250lb-horizontal.png" 
-      alt="Von Mises stress plot for 1250 lb horizontal load case">
-    <figcaption>Load Case 1: 1,250 lb horizontal load at the eye of the lever.</figcaption>
-  </figure>
+    <figure>
+      <img 
+        src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-loadcase3-2500lb-vertical.png" 
+      alt="Von Mises stress plot for 2500 lb vertical load">
+      <figcaption>Load Case 3: 2,500 lb vertical load at the eye.</figcaption>
+    </figure>
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-loadcase2-1875lb-45deg.png" 
-      alt="Von Mises stress plot for 1875 lb load applied at 45 degrees">
-    <figcaption>Load Case 2: 1,875 lb load applied at 45° (combined horizontal + vertical).</figcaption>
-  </figure>
+  </div>
 
-  <figure>
-    <img 
-      src="/assets/images/ansys-weight-optimization/ansys-weight-optimization-loadcase3-2500lb-vertical.png" 
-      alt="Von Mises stress plot for 2500 lb vertical load case">
-    <figcaption>Load Case 3: 2,500 lb vertical load at the eye.</figcaption>
-  </figure>
-
-</div>
-
-
-<h3>Notes & Future Improvements</h3>
-<p>
-  Future work could include running a formal topology optimization study to generate a 
-  more organic optimal material layout, validating the design under additional load cases 
-  (e.g., off-axis loads or dynamic conditions), and comparing manufacturability and cost 
-  for different fabrication approaches. Extending the workflow to include thermal and 
-  fatigue analyses would also make the part more robust for real-world aerospace 
-  applications.
-</p>
-
+  <h3>Notes & Future Improvements</h3>
+  <p>
+    Future work could include applying topology optimization to generate an even more 
+    efficient material layout, running fatigue and thermal analyses for additional 
+    load cases, and comparing manufacturability and cost across different design 
+    variants and processes.
+  </p>
 </article>
