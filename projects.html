@@ -6,16 +6,21 @@ title: "Projects – Zinoun Obaid"
 <section>
   <h2>Projects</h2>
   <p>
-    Selected engineering and personal projects. Each page walks through the problem, approach, and results.
+    Selected engineering and personal projects, listed chronologically from oldest to newest.
   </p>
 
   <ul class="project-list">
-    {% assign projects = site.pages | where:"in_projects_index", true | sort:"order" %}
+    {% assign projects = site.pages | where:"in_projects_index", true | sort:"date" %}
     {% for project in projects %}
       <li class="project">
         <h3>
           <a href="{{ project.url }}">{{ project.title }}</a>
         </h3>
+
+        {% if project.date %}
+          <p><strong>Date:</strong> {{ project.date | date: "%B %Y" }}</p>
+        {% endif %}
+
         {% if project.summary %}
           <p>{{ project.summary }}</p>
         {% endif %}
