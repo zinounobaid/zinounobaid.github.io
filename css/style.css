@@ -100,6 +100,39 @@ footer.site-footer {
   font-size: 0.85rem;
   color: #777;
 }
+.image-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* On wider screens, show two images per row */
+@media (min-width: 768px) {
+  .image-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.image-grid figure {
+  margin: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.image-grid img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+.image-grid figcaption {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 6px;
+}
 
 /* Simple responsive tweak */
 @media (min-width: 768px) {
