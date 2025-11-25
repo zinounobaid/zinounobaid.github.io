@@ -28,26 +28,66 @@ date: 2015-06-15
     <li>Use a manufacturable geometry suitable for machining or standard fabrication.</li>
   </ul>
 
-  <h3>Approach</h3>
-  <p>
-    I started from the baseline CAD geometry, applied the given boundary conditions and loads in ANSYS,
-    and identified regions with low utilization (low stress relative to allowable). I iteratively removed
-    material from low-stress zones and refined fillets and cutouts, re-running the FEA after each change to
-    track the impact on peak stress and deflection. This process continued until I reached a balance between
-    weight reduction and structural performance.
-  </p>
+<h3>Approach</h3>
+<p>
+  I began with the baseline CAD geometry and imported it into ANSYS to understand the stress 
+  distribution under three critical load cases (horizontal, 45° angled, and vertical loading at 
+  the eye of the lever). To realistically represent the boundary conditions, I fixed the contact 
+  areas at the bolt holes rather than the entire bottom surface, since that region was a candidate 
+  for future material removal.
+</p>
+<p>
+  For the initial runs I used a normal mesh to quickly identify low-stress regions across all 
+  three load cases. Based on those results, I iteratively removed material from consistently 
+  under-utilized areas in SolidWorks, exported the updated geometry as a STEP file, and 
+  re-imported it into ANSYS for re-analysis. To maintain accuracy as the geometry evolved, 
+  I applied a refined global body sizing (0.1 in element size) with fine mesh settings and 
+  then checked mesh quality plots to confirm that most elements were high quality, with only 
+  a small number of lower-quality elements near the load application region.
+</p>
+<p>
+  Each design iteration followed a repeatable loop: update CAD → regenerate mesh with the 
+  refined settings → apply boundary conditions and loads → solve for Von Mises stress and 
+  deflection → verify that maximum stress remained below the allowable limit with an 
+  acceptable factor of safety. If an iteration exceeded allowable stress, I reverted the last 
+  material cut and explored alternative regions for weight reduction.
+</p>
 
-  <h3>Results</h3>
-  <ul>
-    <li>Reduced component mass by approximately XX% compared to the baseline design.</li>
-    <li>Maintained a safety factor of at least YY under the worst-case load.</li>
-    <li>Kept maximum deflection within the original allowable limit.</li>
-  </ul>
 
-  <h3>Notes & Future Improvements</h3>
-  <p>
-    With more time, I would explore topology optimization to automatically identify optimal material
-    distribution, validate the design under additional load cases (fatigue, off-axis loads), and compare
-    manufacturability and cost between different design variants.
-  </p>
+<h3>Results</h3>
+<ul>
+  <li>
+    Reduced the part mass from <strong>110.86 g</strong> to <strong>48.51 g</strong>, 
+    a net weight reduction of approximately <strong>56%</strong>, while maintaining 
+    structural performance under all specified load cases.
+  </li>
+  <li>
+    Verified that the maximum Von Mises stress in each load case remained below the 
+    material yield strength, with an overall factor of safety of approximately 
+    <strong>1.03</strong> based on the ratio of yield stress (145 ksi) to peak 
+    simulated stress (140 ksi).
+  </li>
+  <li>
+    Confirmed good mesh quality on the final design, with the vast majority of elements 
+    in the highest quality range and only a small cluster of lower-quality elements 
+    localized near the load application region.
+  </li>
+  <li>
+    Demonstrated a systematic workflow for simulation-driven weight optimization 
+    (boundary condition definition, mesh refinement, stress interpretation, and 
+    iterative geometry updates) that can be applied to other components.
+  </li>
+</ul>
+
+
+<h3>Notes & Future Improvements</h3>
+<p>
+  Future work could include running a formal topology optimization study to generate a 
+  more organic optimal material layout, validating the design under additional load cases 
+  (e.g., off-axis loads or dynamic conditions), and comparing manufacturability and cost 
+  for different fabrication approaches. Extending the workflow to include thermal and 
+  fatigue analyses would also make the part more robust for real-world aerospace 
+  applications.
+</p>
+
 </article>
