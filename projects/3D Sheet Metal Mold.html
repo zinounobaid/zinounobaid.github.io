@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "Sheet Metal Forming Mold for 3DCurved Aircraft Part"
-summary: "Designed a custom forming mold and flat pattern strategy to keep rivet holes aligned on a doubly-curved aircraft sheet metal part."
+title: "Sheet Metal Forming Mold for Doubly-Curved Aircraft Part"
+summary: "Designed a custom forming mold and flat pattern from a customer 3D model to keep rivet holes aligned on a doubly-curved aircraft sheet metal part."
 tags: ["Sheet Metal", "DFM", "Manufacturing", "Tooling"]
 in_projects_index: true
 date: 2025-05-15
@@ -11,107 +11,120 @@ date: 2025-05-15
   <h2>{{ page.title }}</h2>
   <p><strong>Date:</strong> {{ page.date | date: "%B %Y" }}</p>
   <p><strong>Company:</strong> Dynamo Aviation</p>
-  <p><strong>Role:</strong> Mechanical Engineer</p>
-  <p><strong>Tools:</strong> Sheet metal design, forming mold design, flat pattern development</p>
+  <p><strong>Role:</strong> Mechanical Engineer – Tooling & Manufacturing Support</p>
+  <p><strong>Tools:</strong> Sheet metal flat pattern development, forming mold design, drawing creation, shop support</p>
 
   <h3>Overview</h3>
   <p>
-    This project involved designing a forming mold and flat pattern strategy for a complex
-    sheet metal part that mates to the aircraft skin. The part had curvature in two axes
-    and a non-symmetric central cutout, plus two rivet holes at each end that had to line
-    up precisely after forming. Conventional bending approaches caused warping and
-    misalignment, so I designed a custom mold and modified the flat pattern to control
-    the final geometry and hole locations.
+    The customer provided a 3D model of a complex sheet metal part that mates to the
+    aircraft skin. My responsibility was not to design the part itself, but to create
+    the tooling and flat pattern needed so the part could be manufactured accurately and
+    repeatedly. I designed a custom forming mold and adjusted the flat pattern strategy
+    to ensure the final doubly-curved part matched the 3D model and that the rivet holes
+    aligned correctly with the aircraft structure.
   </p>
 
-  <!-- SHAPE IMAGES NEAR TOP TO BREAK UP TEXT -->
+  <!-- SHAPE IMAGES NEAR TOP -->
   <div class="image-row">
     <figure>
       <img
-        src="/assets/images/sheet-metal-mold/sheet-metal-mold-shape-1.png"
-        alt="Sheet metal part shape showing double curvature along the aircraft skin">
+        src="/assets/images/sheet-metal-mold/shape-1.png"
+        alt="Sheet metal part shape following doubly-curved aircraft skin">
       <figcaption>Overall part shape following the doubly-curved aircraft skin.</figcaption>
     </figure>
 
     <figure>
       <img
-        src="/assets/images/sheet-metal-mold/sheet-metal-mold-shape-2.png"
-        alt="Close-up of the large central cutout and end rivet locations">
-      <figcaption>Central cutout and end rivet locations that must align after forming.</figcaption>
+        src="/assets/images/sheet-metal-mold/shape-2.png"
+        alt="View of the central cutout and end regions on the sheet metal part">
+      <figcaption>Central cutout and end regions that must track the customer 3D model.</figcaption>
     </figure>
   </div>
 
+  <figure>
+    <img
+      src="/assets/images/sheet-metal-mold/shape-3.png"
+      alt="Additional angle showing the saucer-like double curvature of the part">
+    <figcaption>Additional angle showing the saucer-like double curvature of the part.</figcaption>
+  </figure>
+
   <h3>Problem</h3>
   <p>
-    The part had to sit flush on the aircraft skin and follow a saucer-like curvature
-    (bent in two axes). The geometry included:
+    The customer’s 3D model defined a sheet metal part that sits on the aircraft skin and
+    is bent in two axes (saucer-like curvature). The geometry included:
   </p>
   <ul>
-    <li>A large, non-symmetric central hole.</li>
-    <li>Two symmetric rivet holes at each end that reference existing structure.</li>
-    <li>Curvature driven by the aircraft skin, not a simple single-axis bend.</li>
+    <li>A large, non-symmetric central cutout.</li>
+    <li>Two symmetric rivet holes at each end that reference existing aircraft structure.</li>
+    <li>Curvature driven entirely by the supplied 3D model, not a simple single-axis bend.</li>
   </ul>
   <p>
-    When we attempted to form the part using standard brake operations, the material
-    warped during bending and the final hole locations shifted. Even small shifts were
-    enough to cause misalignment with the mating structure, which is unacceptable for
-    install and rework cost.
+    When we evaluated forming options, it became clear that bending directly to the final
+    shape with full-size holes would cause warping and small shifts in hole location.
+    Because the end holes have to match existing structure on the aircraft, even small
+    misalignment would create installation issues and rework.
   </p>
 
   <h3>Constraints & Requirements</h3>
   <ul>
-    <li>Part must conform closely to the doubly-curved aircraft skin without gaps.</li>
+    <li>Final part must closely match the customer’s 3D model and sit flush on the aircraft skin.</li>
     <li>End rivet holes must align with existing structure after forming.</li>
-    <li>Central cutout shape must remain within tolerance for clearance and access.</li>
-    <li>Process must be repeatable on the shop floor with minimal hand rework.</li>
+    <li>Central cutout shape and position must remain within tolerance.</li>
+    <li>Process must be repeatable for production, not a one-off hand-formed part.</li>
   </ul>
 
   <h3>Approach</h3>
   <p>
-    We experimented with different forming methods and quickly confirmed that
-    bending to final shape with full-size holes was causing unacceptable distortion.
-    To control the geometry and hole locations, I developed two key changes:
+    Starting from the customer’s 3D model, I generated a flat pattern and drawing for the
+    part and then focused on how to form it without losing control of the geometry. We tried
+    straightforward bending approaches and confirmed that warping around the bends caused the
+    holes to move enough to matter.
   </p>
   <ul>
     <li>
-      <strong>Flat pattern with undersized pilot holes:</strong>
-      I modified the flat pattern so that the end holes were smaller pilot holes,
-      sized only for locating and later drilling, instead of full-size rivet holes.
-      This allowed the part to be formed without trying to “force” the final hole
-      pattern through the bend.
+      <strong>Flat pattern with pilot holes:</strong>
+      Instead of cutting the end rivet holes to final size in the flat state, I used smaller
+      pilot holes in the flat pattern. These pilots were used for location and fixturing rather
+      than as the final rivet-size holes. This reduced the risk of distortion “locking in” the
+      final hole pattern during forming.
     </li>
     <li>
-      <strong>Custom forming mold:</strong>
-      I designed a forming mold that matched the final doubly-curved surface profile
-      of the aircraft skin. The mold controlled the outer shape and curvature of the
-      part, using the overall contour as the reference rather than the holes. The
-      operator could place the flat blank onto the mold and form it to the correct
-      shape in a controlled, repeatable way.
+      <strong>Custom forming mold design:</strong>
+      I designed a forming mold that followed the doubly-curved surface dictated by the
+      customer 3D model. The mold controlled the overall shape and curvature of the part so
+      the operator could form the blank to the correct profile instead of free-forming it.
+    </li>
+    <li>
+      <strong>Collaboration with the machine shop:</strong>
+      Our machine shop manufactured the mold from the drawing and 3D data I provided. Once the
+      mold was complete, I checked key dimensions and surface features against the drawing and
+      the original 3D model to confirm it matched the intended profile.
+    </li>
+    <li>
+      <strong>Final drilling after forming:</strong>
+      After forming, the part was located using the pilot holes and the final rivet hole size
+      and position were brought in by drilling / match drilling to the aircraft structure.
+      This separated control of the part shape from the final hole tolerances.
     </li>
   </ul>
-  <p>
-    After forming on the mold, the part was located using the pilot holes and the
-    final rivet hole size and position were brought in using drilling or match
-    drilling to the aircraft structure. This separated “shape control” from “final
-    hole tolerance,” which significantly improved consistency.
-  </p>
 
   <h3>Results</h3>
   <ul>
     <li>
-      Achieved a repeatable forming process where the part followed the aircraft skin
-      curvature without excessive warping.
+      Established a repeatable forming process that produces parts matching the doubly-curved
+      customer 3D model within tolerance.
     </li>
     <li>
-      Rivet hole alignment improved significantly, reducing rework and hand-fit time.
+      Improved rivet hole alignment after forming by using pilot holes and final drilling,
+      reducing the need for hand-fit and rework.
     </li>
     <li>
-      The custom mold allowed operators to form parts consistently, instead of relying
-      on manual tweaks for each piece.
+      Delivered a forming mold that the machine shop could manufacture and use effectively,
+      with geometry verified against the drawing and original 3D model.
     </li>
     <li>
-      The approach (undersized pilot holes + forming mold + final drilling) can be
-      reused for other complex sheet metal parts with double curvature.
+      Created a tooling and flat pattern strategy that can be reused for similar doubly-curved
+      sheet metal parts from other customer 3D models.
     </li>
   </ul>
 
@@ -119,31 +132,31 @@ date: 2025-05-15
   <div class="image-grid">
     <figure>
       <img
-        src="/assets/images/sheet-metal-mold/sheet-metal-mold-completed-part-1.png"
-        alt="Formed sheet metal part sitting in the custom mold">
-      <figcaption>Formed part sitting in the custom mold, matching the aircraft skin curvature.</figcaption>
+        src="/assets/images/sheet-metal-mold/mold-1.png"
+        alt="Custom forming mold with the formed sheet metal part">
+      <figcaption>Custom forming mold with the formed part following the aircraft skin curvature.</figcaption>
     </figure>
 
     <figure>
       <img
-        src="/assets/images/sheet-metal-mold/sheet-metal-mold-completed-part-2.png"
-        alt="Close-up of the formed part showing the central cutout and curvature">
-      <figcaption>Close-up of the central cutout on the formed part following the saucer-like shape.</figcaption>
+        src="/assets/images/sheet-metal-mold/mold-2.png"
+        alt="Close-up of the formed part in the mold showing the central cutout region">
+      <figcaption>Close-up of the central cutout region formed against the mold surface.</figcaption>
     </figure>
 
     <figure>
       <img
-        src="/assets/images/sheet-metal-mold/sheet-metal-mold-completed-part-3.png"
-        alt="View of the end regions and rivet hole locations after forming">
-      <figcaption>End regions and rivet hole locations after forming, ready for final drilling to size.</figcaption>
+        src="/assets/images/sheet-metal-mold/mold-3.png"
+        alt="View of the end regions and hole locations after forming in the mold">
+      <figcaption>End regions and hole locations after forming, ready for final drilling to size.</figcaption>
     </figure>
   </div>
 
   <h3>Notes & Future Improvements</h3>
   <p>
-    Next steps could include adding simple hard stops or datums on the mold for even
-    more precise location control, documenting a standard work instruction for the
-    forming and drilling sequence, and exploring small design tweaks to the flat
-    pattern to further reduce springback and forming forces.
+    Future improvements could include adding dedicated datums or hard stops on the mold for
+    even tighter location control, refining the flat pattern to further minimize springback,
+    and documenting a standard work procedure so operators can consistently set up and form
+    similar parts with minimal trial and error.
   </p>
 </article>
