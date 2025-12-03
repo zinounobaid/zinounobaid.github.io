@@ -1,8 +1,8 @@
 ---
 layout: default
-title: "Manual Cart Drive Mechanism for One-Way Belt"
-summary: "Personal project from an interview problem: designed a manual selector mechanism that uses a one-direction belt to move a cart forward, backward, or free."
-tags: ["Mechanism Design", "Kinematics", "Conceptual Design"]
+title: "Manual Cart Drive Mechanism for One-Way Timing Belt"
+summary: "Personal project from an interview problem: designed a belt-engaging mechanism that lets a cart move forward, backward, or freely using a one-direction timing belt."
+tags: ["Mechanism Design", "Kinematics", "Conceptual Design", "CAD"]
 in_projects_index: true
 date: 2025-11-01
 ---
@@ -10,149 +10,190 @@ date: 2025-11-01
 <article>
   <h2>{{ page.title }}</h2>
   <p><strong>Date:</strong> {{ page.date | date: "%B %Y" }}</p>
-  <p><strong>Type:</strong> Personal project (based on interview problem)</p>
-  <p><strong>Role:</strong> Mechanism and concept designer</p>
-  <p><strong>Tools:</strong> Hand sketches, mechanism kinematics, McMaster-Carr component selection, basic CAD for layout</p>
+  <p><strong>Type:</strong> Personal project (interview design problem)</p>
+  <p><strong>Role:</strong> Mechanism concept, iteration, and CAD</p>
+  <p><strong>Tools:</strong> Hand sketches, mechanism kinematics, off-the-shelf component selection, CAD layout</p>
 
   <h3>Overview</h3>
   <p>
-    This project started as an interview design problem: 
-    a cart sits on top of a continuously rotating belt that can only move in one direction. 
-    The task was to design a manual mechanism that can:
+    The task was to design a purely mechanical system mounted to a cart that rides on linear guides.
+    The only power source is a timing belt running underneath the cart that can rotate in
+    <strong>one direction only</strong>. The mechanism must:
   </p>
   <ul>
     <li>Drive the cart forward.</li>
     <li>Drive the cart backward.</li>
-    <li>Allow the cart to free-float (neutral).</li>
+    <li>Allow the cart to float freely (neutral).</li>
   </ul>
   <p>
-    My final concept uses two belt-engaging rollers on a selector shaft and a simple 
-    detent mechanism. A handle moves the selector between forward, reverse, and neutral, 
-    engaging one of two driven rollers against the belt while a spring-and-shaft detent 
-    prevents accidental switching.
+    I approached this as a state-based mechanism design problem, iterated through several
+    prototype concepts on paper, and converged on a compact mechanism that uses a pair of
+    belt-engaging gears, idler wheels, and a spring-loaded selector to switch between
+    forward, reverse, and neutral. :contentReference[oaicite:0]{index=0}
   </p>
 
-  <h3>Problem</h3>
+  <!-- PROBLEM DIAGRAM NEAR TOP -->
+  <div class="image-row">
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-problem-diagram.png"
+        alt="Carriage on linear guides over a one-direction timing belt, showing problem setup">
+      <figcaption>
+        Problem setup: cart on linear guides with a one-direction timing belt underneath. The
+        mechanism must attach to the cart and control motion in both directions.
+      </figcaption>
+    </figure>
+  </div>
+
+  <h3>Problem & Assumptions</h3>
   <p>
-    The belt under the cart is driven continuously in a single direction. There is no 
-    control over the belt itself; all control has to come from a mechanism attached 
-    to the cart. The mechanism must:
+    The given setup was a carriage on linear guides, with a timing belt looped underneath.
+    The belt motion and tension are fixed; all control must come from the mechanism that
+    attaches to the cart. To make the problem concrete, I adopted the following assumptions: :contentReference[oaicite:1]{index=1}
   </p>
   <ul>
-    <li>Use the one-direction belt as the power source.</li>
-    <li>Move the cart in either direction on command.</li>
-    <li>Provide a neutral mode where the cart can be moved freely.</li>
-    <li>Be manually actuated, robust, and resistant to accidental mode changes.</li>
+    <li>Timing belt tension ~<strong>250 lbf</strong>, 2&quot; belt spacing, 1&quot; belt width, trapezoidal profile, ~3&quot; engagement length.</li>
+    <li>Off-the-shelf components are preferred (gears, rollers, bearings, springs), with some machined parts as needed.</li>
+    <li>Mechanism must support three modes: left, right, and neutral (free movement).</li>
+    <li>Mechanism can be fastened to the cart via hardware; no modification to the belt drive itself.</li>
+    <li>Initial prototype focus; future iterations can refine packaging and ergonomics.</li>
   </ul>
 
-  <h3>Constraints & Requirements</h3>
-  <ul>
-    <li>Mechanism must fit within a limited envelope under or integrated into the cart.</li>
-    <li>Only the belt direction is fixed; reversing motion must come from the mechanism.</li>
-    <li>Use standard purchased components where practical (bearings, shafts, springs, hardware).</li>
-    <li>Have clearly defined, repeatable positions for forward, reverse, and neutral.</li>
-    <li>Include a way to lock each position so vibration cannot cause an unintended change.</li>
-  </ul>
-
-  <h3>Approach</h3>
+  <h3>Concept Exploration & Prototypes</h3>
   <p>
-    I began by breaking the problem into discrete states and power flow:
-    the belt delivers motion in one direction; the mechanism must either couple that
-    motion directly, invert it, or decouple it.
+    I explored several concepts using hand sketches, focusing on how to engage and disengage
+    teeth or rollers with the belt while controlling the contact force. Early concepts used
+    linkages to press linear “tooth bars” into the belt; later concepts transitioned to
+    rotational engagement with gears. :contentReference[oaicite:2]{index=2}
+  </p>
+
+  <div class="image-grid">
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-prototypes-1.png"
+        alt="Early notebook sketches of belt engagement concepts using linear tooth bars and linkages">
+      <figcaption>Early sketches exploring linear tooth bars and hinged linkages for belt engagement.</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-prototypes-2.png"
+        alt="Additional notebook sketches of alternative linkage and clamp concepts">
+      <figcaption>Alternative linkage and clamp concepts to transmit clamping force into the belt.</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-prototypes-3.png"
+        alt="Sketches evolving toward rotational gear engagement concept">
+      <figcaption>Later sketches converging toward rotational gear engagement rather than linear teeth.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Prototype Tradeoffs</h3>
+  <p>
+    I evaluated the concepts based on force path, manufacturability, and ease of engagement:
   </p>
   <ul>
     <li>
-      Explored concepts using clutches, friction rollers, and pawl/ratchet arrangements
-      to switch between forward, reverse, and neutral.
+      Concepts A–D used hinged arms and linear teeth pushed into the belt. These required
+      multiple hinges and springs to generate compression, leading to uneven contact and
+      potential disturbance of belt tension. :contentReference[oaicite:3]{index=3}
     </li>
     <li>
-      Evaluated manufacturability and complexity, aiming to minimize custom machined parts
-      and maximize use of McMaster-Carr hardware (shafts, bearings, springs, gears/rollers).
-    </li>
-    <li>
-      Converged on a layout with two belt-engaging rollers, spaced apart, each associated 
-      with one direction of cart travel.
+      Prototype E switched to <strong>rotational gear engagement</strong> with idler wheels to maintain belt
+      tension. Rotational engagement required less compression force and gave more controlled,
+      repeatable contact with the belt.
     </li>
   </ul>
 
-  <h3>Final Mechanism Concept</h3>
+  <h3>Selected Design – Prototype E</h3>
   <p>
-    The final design uses a selector shaft with two driven rollers (or toothed gears / pulleys) 
-    that can be pressed into the belt from above. The belt always moves in one direction, 
-    but depending on which roller is engaged, the cart sees motion in forward or reverse.
+    Prototype E was selected as the final concept. It uses a central drive gear to engage
+    the timing belt and a set of idler wheels to press the belt into the gear while maintaining
+    tension. A manual selector mechanism switches which side of the belt is engaged or lifts
+    the mechanism into neutral. :contentReference[oaicite:4]{index=4}
   </p>
+
+  <div class="image-row">
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-prototypeE-iso.png"
+        alt="Isometric CAD view of the selected belt-engaging mechanism (Prototype E)">
+      <figcaption>CAD view of the selected mechanism (Prototype E) mounted under the cart.</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-prototypeE-rear.png"
+        alt="Rear view of the mechanism showing open design and belt engagement">
+      <figcaption>Rear view: open design allows visual confirmation of belt and gear engagement.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Mechanism Details</h3>
   <ul>
     <li>
-      <strong>Two drive rollers:</strong>
-      Two rollers are mounted on a common housing under the cart, spaced along the belt. 
-      The geometry is arranged so that when the belt is driving one roller, the reaction 
-      force translates into forward motion; when the other roller is engaged, the belt’s 
-      one-direction motion is converted into cart motion in the opposite direction 
-      (for example via the orientation of the roller axes or an internal gear/train flip).
+      <strong>Belt-engaging gear:</strong>
+      A toothed gear interfaces with the timing belt profile. The belt’s one-direction motion
+      drives this gear, which in turn pulls the cart.
     </li>
     <li>
-      <strong>Selector shaft and handle:</strong>
-      One of the rollers is mounted on a pivoting selector shaft. A manual handle at the top
-      of the cart rotates this shaft between three detented positions:
-      forward, neutral, and reverse. In each position, the selector shaft cams or pushes
-      the appropriate roller into contact with the belt.
+      <strong>Idler wheels and slots:</strong>
+      Idler wheels above the belt push it into the drive gear. Slotted mounting holes on the
+      idler bolts allow fine adjustment of belt engagement and tension at the mechanism. :contentReference[oaicite:5]{index=5}
     </li>
     <li>
-      <strong>Neutral position:</strong>
-      In neutral, the selector shaft retracts both rollers so they float clear of the belt.
-      The cart is then free-floating and can be moved without belt influence.
+      <strong>Selector and locking:</strong>
+      A spring-loaded shaft and detent lock the mechanism into forward, reverse, or neutral
+      positions, preventing accidental switching under vibration.
     </li>
     <li>
-      <strong>Detent and spring lock:</strong>
-      A spring-loaded detent pin and a small groove pattern on the selector shaft provide
-      positive stops for the three positions. The operator feels a solid “click” into each
-      state, and vibration will not cause the mechanism to drift between modes.
+      <strong>Off-the-shelf components:</strong>
+      Rollers, bearings, fasteners, and springs are selected from standard catalogs
+      (e.g., McMaster-Carr), while only the bracketry and selector geometry require machining.
     </li>
     <li>
-      <strong>Use of standard components:</strong>
-      Bearings, shafts, springs, fasteners, and many of the rollers were chosen from
-      McMaster-Carr. Custom machined parts were limited to the selector shaft geometry,
-      housing, and any brackets that required specific dimensions or interfaces to the cart.
+      <strong>Open architecture:</strong>
+      The mechanism is intentionally open so operators can clearly see belt engagement, spring
+      position, and wheel contact, simplifying inspection and adjustment. :contentReference[oaicite:6]{index=6}
     </li>
   </ul>
+
+  <div class="image-grid">
+    <figure>
+      <img
+        src="/assets/images/manual-cart-drive/manual-cart-drive-wheel-engagement.png"
+        alt="Close-up CAD view of idler wheel with slotted adjustment for belt tension">
+      <figcaption>Close-up of idler wheel with slotted adjustment to fine-tune belt engagement.</figcaption>
+    </figure>
+  </div>
 
   <h3>Results</h3>
   <ul>
     <li>
-      Defined a complete mechanism concept that satisfies the core requirement:
-      using a one-direction belt to provide forward, reverse, and neutral motion for a cart.
+      Defined a clear, three-state mechanism (forward, reverse, neutral) using a one-direction
+      belt as the only power source.
     </li>
     <li>
-      Demonstrated a clear state-based design (three positions) with a robust detent 
-      and locking strategy to avoid accidental mode changes.
+      Reduced complexity compared to linkage-heavy concepts by using rotational gear engagement
+      and idler wheels instead of large compression linkages.
     </li>
     <li>
-      Showed how to decompose an interview-level problem into physical states, power flow, 
-      kinematic layout, and then down to a concrete bill of materials using off-the-shelf parts.
+      Demonstrated a practical balance between off-the-shelf hardware and targeted machined parts.
     </li>
     <li>
-      Identified which elements must be custom machined (selector shaft, housing interfaces)
-      versus which can be purchased (bearings, springs, handles, hardware).
+      Produced a CAD layout that could be taken into prototyping with a relatively small
+      amount of additional detailing and hardware specification.
     </li>
   </ul>
 
   <h3>Notes & Future Improvements</h3>
   <p>
-    As future work, I would build a simple CAD model and kinematic animation to validate
-    clearances and check belt contact forces, then prototype the mechanism to confirm
-    engagement forces and ergonomics of the handle. Additional improvements could include
-    adding simple position labels and a secondary safety interlock if used in a 
-    production environment.
+    Future improvements could include building a physical prototype to validate engagement
+    forces and ergonomics, optimizing packaging to reduce weight and envelope, and adding
+    safety interlocks or covers if used in a production environment. A simple kinematic
+    animation would also help communicate the forward/reverse/neutral transitions to
+    stakeholders.
   </p>
-
-  <!-- Optional: later you can add a gallery like this and update the image paths
-  <h3>Gallery</h3>
-  <div class="image-grid">
-    <figure>
-      <img src="/assets/images/manual-cart-drive/manual-cart-drive-schematic.png" 
-           alt="Hand sketch or CAD schematic of the manual cart drive mechanism">
-      <figcaption>Conceptual schematic of the manual cart drive mechanism.</figcaption>
-    </figure>
-  </div>
-  -->
 </article>
