@@ -23,3 +23,37 @@ title: "Mechanical Engineer Portfolio – Zinoun Obaid"
     DFM for sheet metal and injection molding.
   </p>
 </section>
+<section>
+  <h2>Projects</h2>
+  <p>
+    Selected engineering and personal projects, listed chronologically from oldest to newest.
+    Each project page walks through the problem, approach, and results.
+  </p>
+
+  <ul class="project-list">
+    {% assign projects = site.pages | where:"in_projects_index", true | sort:"date" %}
+    {% for project in projects %}
+      <li class="project">
+        <h3>
+          <a href="{{ project.url }}">{{ project.title }}</a>
+        </h3>
+
+        {% if project.date %}
+          <p><strong>Date:</strong> {{ project.date | date: "%B %Y" }}</p>
+        {% endif %}
+
+        {% if project.summary %}
+          <p>{{ project.summary }}</p>
+        {% endif %}
+
+        {% if project.tags %}
+          <div>
+            {% for tag in project.tags %}
+              <span class="pill">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
