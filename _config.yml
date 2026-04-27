@@ -1,0 +1,27 @@
+# Site Settings
+title: Zinoun Obaid | Mechanical Engineer
+description: "Mechanical Engineer specializing in design, analysis, and problem solving. CAD, FEA, manufacturing troubleshooting, and process improvement."
+url: https://zinounobaid.github.io/
+baseurl: ""
+permalink: /:year/:month/:day/:title.html
+timezone: System/UTC
+# SEO & Social Media
+email: zinounobaid@gmail.com
+twitter_username: zinounobaid
+github_username: zinounobaid
+linkedin_url: "https://www.linkedin.com/in/zinounobaid/"
+
+# Build Settings
+markdown: kramdown
+highlighter: rouge
+future: true
+timezone: America/Los_Angeles
+
+# Collections for Projects and Interview Prep
+collections:
+  projects:
+    output: true
+    permalink: /projects/:title/
+  interview_prep:
+    output: true
+    permalink: /interview_prep/:path/

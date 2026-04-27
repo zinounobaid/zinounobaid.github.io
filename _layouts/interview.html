@@ -1,0 +1,58 @@
+---
+layout: default
+---
+
+<div class="interview-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <a href="/" class="back-link">&larr; Back to Portfolio</a>
+      
+      <h1 class="page-title">{{ page.title }}</h1>
+      
+      {% if page.summary %}
+      <p class="page-summary">{{ page.summary }}</p>
+      {% endif %}
+      
+      <!-- Metadata -->
+      <div class="page-meta">
+        {% if page.date %}
+        <span class="meta-item"><i class="fas fa-calendar"></i> {{ page.date | date: "%B %d, %Y" }}</span>
+        {% endif %}
+        
+        {% if page.tags %}
+        <div class="tags-container">
+          {% for tag in page.tags %}
+          <a href="/interview_prep/tag/{{ tag | slugify }}/">{{ tag }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    <article>
+      {{ content }}
+    </article>
+    
+    <!-- Navigation Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/interview_prep/">Interview Prep</a></li>
+        {% if page.url %}
+        <li aria-current="page">{{ page.title }}</li>
+        {% endif %}
+      </ol>
+    </nav>
+  </main>
+
+  <!-- Page Footer -->
+  <footer class="page-footer">
+    <div class="container">
+      <p>Last updated: {{ 'now' | date: "%B %d, %Y" }}</p>
+    </div>
+  </footer>
+</div>

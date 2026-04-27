@@ -1,0 +1,23 @@
+# Jekyll & Bundler
+.DS_Store
+.sass-cache/
+vendor/
+.jekyll-cache/
+.jekyll-metadata
+.history/
+Gemfile.lock
+
+# Build outputs (GitHub Pages generates these)
+_site/
+.github/pages
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
