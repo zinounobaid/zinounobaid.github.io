@@ -5,96 +5,68 @@ title: "Mechanical Engineer Portfolio – Zinoun Obaid"
 
 <!-- Hero Section -->
 <header class="hero-section">
-  <div class="container">
+  <div class="wrapper">
     <div class="hero-content">
-      <p class="hero-greeting">Hello, I'm</p>
+      <p class="hero-greeting">Senior Mechanical Engineer</p>
       <h1 class="hero-name">Zinoun Obaid</h1>
-      <p class="hero-title">Mechanical Engineer</p>
+      <p class="hero-title">Aerospace | Design | Manufacturing | Automation</p>
       <p class="hero-description">
-        8 years of experience in manufacturing, troubleshooting, and process improvement. 
-        Specializing in CAD design, FEA analysis, and practical engineering problem solving.
+        8+ years experience in the aerospace industry, specializing in hardware ownership from concept to flight-certified production. Expert in DO-160G qualification and process automation.
       </p>
       
       <!-- Call-to-Action Buttons -->
       <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary">View My Work</a>
-        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+        <a href="#projects" class="btn btn-primary">Explore Projects</a>
+        <a href="/interview_prep/" class="btn btn-secondary">Interview Bank</a>
       </div>
 
       <!-- Quick Skills Preview -->
       <div class="hero-skills">
         <span class="skill-tag">SolidWorks CAD</span>
         <span class="skill-tag">FEA Analysis</span>
-        <span class="skill-tag">Manufacturing</span>
-        <span class="skill-tag">Process Improvement</span>
+        <span class="skill-tag">DO-160G Qual</span>
+        <span class="skill-tag">Python Automation</span>
       </div>
-    </div>
-
-    <!-- Decorative Element -->
-    <div class="hero-decoration">
-      <svg viewBox="0 0 200 100" width="100%" height="auto">
-        <defs>
-          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:var(--primary);stop-opacity:1" />
-            <stop offset="100%" style="stop-color:var(--primary-light);stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <path d="M-20,50 Q50,80 120,30 T220,50" fill="none" stroke="url(#grad1)" stroke-width="2"/>
-      </svg>
     </div>
   </div>
 </header>
 
-<section id="about">
-  <p>
-    I'm a mechanical engineer with 8 years of experience in manufacturing, troubleshooting,
-    and process improvement. Right now I'm focused on building a portfolio of design and
-    analysis projects that show my skills in CAD, FEA, and practical engineering problem solving.
-  </p>
-</section>
+<div class="wrapper">
+  <section id="about" class="about-section">
+    <h2>About Me</h2>
+    <p>
+      I'm a mechanical engineer with 8+ years of experience in manufacturing, troubleshooting, and process improvement. My career is built on a foundation of hardware ownership—taking safety-critical components from initial concept through rigorous DO-160G qualification and into production.
+    </p>
+    <p>
+      I'm passionate about bridge-building between engineering and the shop floor, often leveraging Python and automation to eliminate repetitive toil and let engineers focus on engineering.
+    </p>
+  </section>
 
-<section>
-  <h2>Experience & Skills (Snapshot)</h2>
-  <p>
-    <strong>Core skills:</strong> CAD (SolidWorks), FEA basics, manufacturing troubleshooting,
-    process improvement, technical documentation.
-  </p>
-  <p>
-    <strong>Currently learning:</strong> advanced FEA, Python automation for engineering,
-    DFM for sheet metal and injection molding.
-  </p>
-</section>
-<section>
-  <h2>Projects</h2>
-  <p>
-    Selected engineering and personal projects, listed chronologically from oldest to newest.
-    Each project page walks through the problem, approach, and results.
-  </p>
+  <section id="projects" class="projects-section">
+    <h2>Selected Projects</h2>
+    <p class="section-intro">
+      A collection of engineering challenges, from structural redesigns to automated documentation pipelines.
+    </p>
 
-  <ul class="project-list">
-    {% assign projects = site.pages | where:"in_projects_index", true | sort:"date" %}
-    {% for project in projects %}
-      <li class="project">
-        <h3>
-          <a href="{{ project.url }}">{{ project.title }}</a>
-        </h3>
-
-        {% if project.date %}
-          <p><strong>Date:</strong> {{ project.date | date: "%B %Y" }}</p>
-        {% endif %}
-
-        {% if project.summary %}
-          <p>{{ project.summary }}</p>
-        {% endif %}
-
-        {% if project.tags %}
-          <div>
-            {% for tag in project.tags %}
-              <span class="pill">{{ tag }}</span>
-            {% endfor %}
+    <div class="project-grid">
+      {% assign projects = site.projects | sort:"date" | reverse %}
+      {% for project in projects %}
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">
+              <a href="{{ project.url }}">{{ project.title }}</a>
+            </h3>
+            <p class="project-date">{{ project.date | date: "%B %Y" }}</p>
+            <p class="project-summary">{{ project.summary }}</p>
+            <div class="project-tags">
+              {% for tag in project.tags %}
+                <span class="project-tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            <a href="{{ project.url }}" class="btn btn-secondary">Case Study &rarr;</a>
           </div>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-</section>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>

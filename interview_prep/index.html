@@ -1,0 +1,40 @@
+---
+layout: default
+title: "Interview Bank"
+description: "Technical deep-dives and STAR+R stories for aerospace engineering interviews."
+---
+
+<div class="interview-page">
+  <header class="page-header">
+    <div class="wrapper">
+      <h1 class="page-title">Interview Prep Bank</h1>
+      <p class="page-summary">
+        Technical deep-dives, root cause analysis stories, and preparation notes for senior engineering roles.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="interview-grid">
+      {% for item in site.interview_prep %}
+        <div class="interview-card">
+          <div class="card-content">
+            <h2 class="card-title">
+              <a href="{{ item.url }}">{{ item.title }}</a>
+            </h2>
+            <p class="card-summary">{{ item.summary }}</p>
+            <div class="card-meta">
+              <span class="card-date">{{ item.date | date: "%B %d, %Y" }}</span>
+              <div class="card-tags">
+                {% for tag in item.tags %}
+                  <span class="card-tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            <a href="{{ item.url }}" class="btn btn-secondary">Read Prep Notes</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
