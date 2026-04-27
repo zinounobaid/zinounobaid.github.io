@@ -5,7 +5,6 @@ description: "Mechanical Engineer specializing in design, analysis, and problem 
 url: https://zinounobaid.github.io/
 baseurl: ""
 permalink: /:year/:month/:day/:title.html
-timezone: System/UTC
 # SEO & Social Media
 email: zinounobaid@gmail.com
 twitter_username: zinounobaid

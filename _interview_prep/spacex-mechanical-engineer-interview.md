@@ -1,5 +1,12 @@
-# SpaceX FTS Interview — Brad Murphy Call Prep
-### Mechanical Engineer, Flight Termination System (Starship) | 30-min call
+---
+layout: interview
+title: "SpaceX FTS Interview — Brad Murphy Call Prep"
+summary: "Mechanical Engineer, Flight Termination System (Starship) | 30-min Screening Call"
+date: 2026-04-27
+tags: [spacex, fts, mechanical-engineer, interview-prep]
+---
+
+## Mechanical Engineer, Flight Termination System (Starship) | 30-min call
 
 > **Brad Murphy:** 4.0 GPA, NASA Space Grant, ATI electromechanical background.
 > He respects rigor, data, and hardware ownership. Be specific. Quantify everything. Never hand-wave.
