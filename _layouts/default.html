@@ -1,44 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  
-  <!-- SEO Meta Tags -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ site.description }}">
-  <meta name="author" content="Zinoun Obaid">
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
-  <meta property="og:description" content="{{ site.description }}">
-  <meta property="og:image" content="/assets/images/og-image.jpg">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <meta name="twitter:title" content="{{ page.title }} | {{ site.title }}">
-  <meta name="twitter:description" content="{{ site.description }}">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="/css/style.css">
+  {% include head.html %}
+  {% if site.katex %}
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="{{ site.katex.cdn.css }}" />
+  {% endif %}
 </head>
 <body>
-  <div class="wrapper">
-    {% include header.html %}
-    <main>
-      {{ content }}
-    </main>
-    {% include footer.html %}
-  </div>
+
+  <!-- Navigation Header -->
+  {% include header.html %}
+
+  <!-- Main Content Wrapper -->
+  <main class="main-content">
+    {{ content }}
+  </main>
+
+  <!-- Site Footer -->
+  {% include footer.html %}
+
+  <!-- AOS (Animate on Scroll) JS CDN -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+  {% if site.katex %}
+  <!-- KaTeX JS and renderer -->
+  <script src="{{ site.katex.cdn.js }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof katex !== 'undefined' && typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      }
+    });
+  </script>
+  {% endif %}
+
+  <!-- Portfolio Main Logic Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Initialize AOS
+      if (typeof AOS !== 'undefined') {
+        AOS.init({
+          duration: 800,
+          easing: 'ease-out-cubic',
+          once: true,
+          offset: 80
+        });
+      }
+
+      // 2. Theme Toggle Controller
+      const themeToggleBtn = document.getElementById('theme-toggle-btn');
+      const darkIcon = themeToggleBtn.querySelector('.theme-icon-dark');
+      const lightIcon = themeToggleBtn.querySelector('.theme-icon-light');
+
+      function updateThemeToggleButton(theme) {
+        if (theme === 'light') {
+          darkIcon.style.display = 'none';
+          lightIcon.style.display = 'inline-block';
+        } else {
+          darkIcon.style.display = 'inline-block';
+          lightIcon.style.display = 'none';
+        }
+      }
+
+      // Initial icon sync
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      updateThemeToggleButton(currentTheme);
+
+      themeToggleBtn.addEventListener('click', () => {
+        const activeTheme = document.documentElement.getAttribute('data-theme');
+        const nextTheme = activeTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+        updateThemeToggleButton(nextTheme);
+
+        // Dispatches event for canvas to change color dynamically
+        window.dispatchEvent(new CustomEvent('themechanged', { detail: nextTheme }));
+      });
+
+      // 3. Header Scroll Glassmorphism Effect
+      const header = document.getElementById('site-header');
+      function handleScroll() {
+        if (window.scrollY > 20) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+
+        // Back-to-top visibility
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+          if (window.scrollY > 500) {
+            backToTop.classList.add('visible');
+          } else {
+            backToTop.classList.remove('visible');
+          }
+        }
+      }
+      window.addEventListener('scroll', handleScroll);
+      handleScroll(); // Trigger immediately to check page reload scroll state
+
+      // 4. Back-to-Top Action
+      const backToTopBtn = document.getElementById('back-to-top');
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
+
+      // 5. Mobile Navigation Drawer Controller
+      const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
+      const mobileNavDrawer = document.getElementById('mobile-nav-drawer');
+      const mobileBackdrop = document.getElementById('mobile-backdrop');
+
+      function toggleMobileMenu() {
+        mobileToggleBtn.classList.toggle('open');
+        mobileNavDrawer.classList.toggle('open');
+        mobileBackdrop.classList.toggle('open');
+        document.body.style.overflow = mobileNavDrawer.classList.contains('open') ? 'hidden' : '';
+      }
+
+      if (mobileToggleBtn) {
+        mobileToggleBtn.addEventListener('click', toggleMobileMenu);
+        mobileBackdrop.addEventListener('click', toggleMobileMenu);
+      }
+
+      // Close mobile drawer on link click
+      const mobileNavLinks = mobileNavDrawer.querySelectorAll('.nav-link');
+      mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (mobileNavDrawer.classList.contains('open')) {
+            toggleMobileMenu();
+          }
+        });
+      });
+
+      // 6. Stats Count-Up Animation
+      const stats = document.querySelectorAll('.stat-value');
+      if (stats.length > 0) {
+        const countUp = (element) => {
+          const target = +element.getAttribute('data-target');
+          const duration = 2000; // 2 seconds
+          const stepTime = Math.max(Math.floor(duration / target), 15);
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += Math.ceil(target / (duration / stepTime));
+            if (current >= target) {
+              element.innerHTML = target + (element.querySelector('.suffix')?.outerHTML || '');
+              clearInterval(timer);
+            } else {
+              element.innerHTML = current + (element.querySelector('.suffix')?.outerHTML || '');
+            }
+          }, stepTime);
+        };
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                stats.forEach(stat => countUp(stat));
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.5 });
+          observer.observe(statsSection);
+        }
+      }
+
+      // 7. Interactive Canvas Particle/Circuit Animation (Aerospace / Grid / Mechatronics theme)
+      const canvas = document.getElementById('hero-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
+
+        let particles = [];
+        const maxParticles = 60;
+
+        function getThemeColors() {
+          const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+          return {
+            particleColor: isLight ? 'rgba(59, 130, 246, 0.45)' : 'rgba(0, 212, 255, 0.5)',
+            lineColor: isLight ? 'rgba(59, 130, 246, 0.08)' : 'rgba(0, 212, 255, 0.07)',
+            gridColor: isLight ? 'rgba(0, 0, 0, 0.015)' : 'rgba(255, 255, 255, 0.01)'
+          };
+        }
+
+        let themeColors = getThemeColors();
+        window.addEventListener('themechanged', () => {
+          themeColors = getThemeColors();
+        });
+
+        class Particle {
+          constructor() {
+            this.reset();
+          }
+
+          reset() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            // Technical blueprint orthogonal or slow random movements
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = (Math.random() - 0.5) * 0.4;
+            this.size = Math.random() * 2 + 1;
+          }
+
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+              this.reset();
+            }
+          }
+
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = themeColors.particleColor;
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < maxParticles; i++) {
+          particles.push(new Particle());
+        }
+
+        function drawGrid() {
+          // Drawing architectural blueprint grid lines
+          const gridSize = 40;
+          ctx.strokeStyle = themeColors.gridColor;
+          ctx.lineWidth = 0.5;
+
+          for (let x = 0; x < width; x += gridSize) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+            ctx.stroke();
+          }
+
+          for (let y = 0; y < height; y += gridSize) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(width, y);
+            ctx.stroke();
+          }
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, width, height);
+
+          drawGrid();
+
+          // Connect points using a tech / node network styling
+          for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+
+            for (let j = i + 1; j < particles.length; j++) {
+              const dx = particles[i].x - particles[j].x;
+              const dy = particles[i].y - particles[j].y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < 120) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                // Technical/circuit board style orthogonal corner paths or direct lines
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = themeColors.lineColor;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+              }
+            }
+          }
+
+          requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = canvas.offsetWidth;
+          height = canvas.height = canvas.offsetHeight;
+        });
+
+        animate();
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,38 +1,98 @@
 ---
 layout: default
-title: "Projects – Zinoun Obaid"
+title: "Projects | Zinoun Obaid"
+description: "Selected mechanical and mechatronics engineering projects by Zinoun Obaid."
 ---
 
-<section>
-  <h2>Projects</h2>
-  <p>
-    Selected engineering and personal projects, listed chronologically from oldest to newest.
-  </p>
+<div class="projects-page">
+  <!-- Page Hero Header -->
+  <header class="page-hero">
+    <div class="container">
+      <h1 data-aos="fade-up">Engineering Portfolio</h1>
+      <p class="page-summary" data-aos="fade-up" data-aos-delay="100">
+        A gallery of projects spanning structural design, finite element analysis (FEA), tooling fabrication, and automated mechanical assemblies.
+      </p>
+    </div>
+  </header>
 
-  <ul class="project-list">
-    {% assign projects = site.pages | where:"in_projects_index", true | sort:"date" | reverse %}
-    {% for project in projects %}
-      <li class="project">
-        <h3>
-          <a href="{{ project.url }}">{{ project.title }}</a>
-        </h3>
+  <div class="container section-ptb">
+    <!-- Filter Tabs (Palun-style) -->
+    <div class="filter-bar" data-aos="fade-up" data-aos-delay="150">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="cad">CAD / Design</button>
+      <button class="filter-btn" data-filter="fea">FEA / Stress</button>
+      <button class="filter-btn" data-filter="manufacturing">Manufacturing</button>
+      <button class="filter-btn" data-filter="mechanism">Mechanisms</button>
+    </div>
 
-        {% if project.date %}
-          <p><strong>Date:</strong> {{ project.date | date: "%B %Y" }}</p>
-        {% endif %}
-
-        {% if project.summary %}
-          <p>{{ project.summary }}</p>
-        {% endif %}
-
-        {% if project.tags %}
-          <div>
-            {% for tag in project.tags %}
-              <span class="pill">{{ tag }}</span>
-            {% endfor %}
+    <!-- Projects Grid -->
+    <div class="project-grid" id="projects-grid">
+      {% assign projects = site.pages | where:"in_projects_index", true | sort:"date" | reverse %}
+      {% for project in projects %}
+        {% capture data_tags %}{% for tag in project.tags %}{{ tag | downcase }} {% endfor %}{% endcapture %}
+        <div class="project-card" data-tags="{{ data_tags | strip }}" data-aos="fade-up" data-aos-delay="{{ forloop.index | times: 100 }}">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-number">0{{ forloop.index }}</div>
+            
+            <h3 class="card-title">
+              <a href="{{ project.url | relative_url }}">{{ project.title }}</a>
+            </h3>
+            
+            <div class="card-date">{{ project.date | date: "%B %Y" }}</div>
+            
+            <p class="card-summary">{{ project.summary }}</p>
+            
+            <div class="card-tags">
+              {% for tag in project.tags %}
+                <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            
+            <a href="{{ project.url | relative_url }}" class="card-link">
+              View Case Study <span class="arrow">&rarr;</span>
+            </a>
           </div>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-</section>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Simple Filter Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Toggle active button class
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          const cardTags = card.getAttribute('data-tags');
+          
+          if (filterValue === 'all') {
+            card.style.display = 'flex';
+          } else {
+            // Check if cardTags contains the filterValue
+            if (cardTags.includes(filterValue)) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          }
+        });
+        
+        // Refresh AOS to prevent animations breaking on visible elements
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
+        }
+      });
+    });
+  });
+</script>

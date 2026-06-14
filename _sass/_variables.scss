@@ -1,0 +1,77 @@
+// ============================================
+// _variables.scss — Design Tokens
+// ============================================
+
+// --- Color Palette ---
+// Dark mode (default)
+$dark-bg:        #10120e;
+$dark-bg-2:      #151813;
+$dark-bg-3:      #1c201a;
+$dark-surface:   #22261f;
+$dark-border:    rgba(255,255,255,0.06);
+$dark-text:      #eaebe6;
+$dark-muted:     #959c8f;
+
+// Light mode
+$light-bg:       #f6f5f0;
+$light-bg-2:     #ffffff;
+$light-bg-3:     #ebeae3;
+$light-surface:  #ffffff;
+$light-border:   rgba(16,18,14,0.08);
+$light-text:     #1d211a;
+$light-muted:    #6b7066;
+
+// Accent colors (same in both modes)
+$cyan:           #d05a3f; // Saturated Terracotta
+$cyan-dim:       #b7432a;
+$cyan-glow:      rgba(208, 90, 63, 0.12);
+$electric-blue:  #c28b3c; // Saturated Warm Amber Gold
+$accent-green:   #4e7e51; // Forest Olive Green
+$accent-red:     #cf453c;
+
+// --- Typography ---
+$font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-mono:   'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+// --- Spacing ---
+$space-xs:   4px;
+$space-sm:   8px;
+$space-md:   16px;
+$space-lg:   24px;
+$space-xl:   40px;
+$space-2xl:  64px;
+$space-3xl:  96px;
+
+// --- Layout ---
+$max-width:  1200px;
+$gutter:     24px;
+
+// --- Border Radius ---
+$radius-sm:  6px;
+$radius-md:  12px;
+$radius-lg:  20px;
+$radius-full: 9999px;
+
+// --- Shadows ---
+$shadow-sm:  0 1px 3px rgba(0,0,0,0.3);
+$shadow-md:  0 4px 20px rgba(0,0,0,0.4);
+$shadow-lg:  0 10px 40px rgba(0,0,0,0.5);
+$shadow-cyan: 0 0 30px rgba(0,212,255,0.2);
+
+// --- Transitions ---
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+$transition:  all 0.3s $ease-smooth;
+$transition-fast: all 0.15s $ease-smooth;
+
+// --- Breakpoints ---
+$bp-sm:   576px;
+$bp-md:   768px;
+$bp-lg:   1024px;
+$bp-xl:   1280px;
+
+// --- Z-index ---
+$z-base:    1;
+$z-above:   10;
+$z-nav:     100;
+$z-overlay: 200;
+$z-modal:   300;

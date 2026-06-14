@@ -1,13 +1,13 @@
+---
 # Site Settings
-theme: minima
 title: Zinoun Obaid | Mechanical Engineer
-description: "Mechanical Engineer specializing in design, analysis, and problem solving. CAD, FEA, manufacturing troubleshooting, and process improvement."
-url: https://zinounobaid.github.io/
+description: "Senior Mechanical Engineer — Aerospace, Mechatronics, and Process Automation. DO-160G qualification, hardware design, and Python automation."
+url: https://zinounobaid.github.io
 baseurl: ""
 permalink: /:year/:month/:day/:title.html
+
 # SEO & Social Media
 email: zinounobaid@gmail.com
-twitter_username: zinounobaid
 github_username: zinounobaid
 linkedin_url: "https://www.linkedin.com/in/zinounobaid/"
 
@@ -17,7 +17,12 @@ highlighter: rouge
 future: true
 timezone: America/Los_Angeles
 
-# Collections for Projects and Interview Prep
+# Sass
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Collections
 collections:
   projects:
     output: true

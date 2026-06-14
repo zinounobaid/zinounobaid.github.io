@@ -2,12 +2,12 @@
 layout: default
 ---
 
-<div class="interview-detail-page">
+<div class="project-detail-page">
   <!-- Page Header / Hero -->
   <header class="page-hero">
     <div class="container">
-      <a href="{{ "/interview_prep/" | relative_url }}" class="back-link">
-        <span class="arrow">&larr;</span> Back to Interview Bank
+      <a href="{{ "/projects.html" | relative_url }}" class="back-link">
+        <span class="arrow">&larr;</span> Back to Projects
       </a>
       
       <h1>{{ page.title }}</h1>
@@ -21,15 +21,15 @@ layout: default
   <!-- Main Content -->
   <main class="section-ptb">
     <div class="container">
-      <article class="article-content">
+      <div class="article-content">
         {{ content }}
-      </article>
+      </div>
       
       <!-- Navigation Breadcrumbs -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <ol>
           <li><a href="{{ "/" | relative_url }}">Home</a></li>
-          <li><a href="{{ "/interview_prep/" | relative_url }}">Interview Bank</a></li>
+          <li><a href="{{ "/projects.html" | relative_url }}">Projects</a></li>
           <li aria-current="page">{{ page.title }}</li>
         </ol>
       </nav>

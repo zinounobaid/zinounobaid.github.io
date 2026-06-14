@@ -5,33 +5,47 @@ description: "Technical deep-dives and STAR+R stories for aerospace engineering 
 ---
 
 <div class="interview-page">
-  <header class="page-header">
-    <div class="wrapper">
-      <h1 class="page-title">Interview Prep Bank</h1>
-      <p class="page-summary">
-        Technical deep-dives, root cause analysis stories, and preparation notes for senior engineering roles.
+  <!-- Page Hero Header -->
+  <header class="page-hero">
+    <div class="container">
+      <h1 data-aos="fade-up">Interview Prep Bank</h1>
+      <p class="page-summary" data-aos="fade-up" data-aos-delay="100">
+        Technical deep-dives, structural and mechatronics design problems, and STAR+R scenario files prepared for senior engineering roles.
       </p>
     </div>
   </header>
 
-  <div class="wrapper">
+  <!-- Interview Cards List -->
+  <div class="container section-ptb">
     <div class="interview-grid">
-      {% for item in site.interview_prep %}
-        <div class="interview-card">
-          <div class="card-content">
-            <h2 class="card-title">
-              <a href="{{ item.url }}">{{ item.title }}</a>
-            </h2>
-            <p class="card-summary">{{ item.summary }}</p>
-            <div class="card-meta">
-              <span class="card-date">{{ item.date | date: "%B %d, %Y" }}</span>
-              <div class="card-tags">
-                {% for tag in item.tags %}
-                  <span class="card-tag">{{ tag }}</span>
-                {% endfor %}
-              </div>
+      {% assign items = site.interview_prep | sort:"date" | reverse %}
+      {% for item in items %}
+        <div class="interview-card" data-aos="fade-up" data-aos-delay="{{ forloop.index | times: 100 }}">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <!-- Icon/Label based on company/role tag -->
+            <div class="card-label">
+              <i class="fas fa-briefcase"></i> 
+              {% if item.tags contains 'spacex' %}SpaceX FTS{% else %}Technical Case{% endif %}
             </div>
-            <a href="{{ item.url }}" class="btn btn-secondary">Read Prep Notes</a>
+            
+            <h3 class="card-title">
+              <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+            </h3>
+            
+            <div class="card-date">{{ item.date | date: "%B %d, %Y" }}</div>
+            
+            <p class="card-summary">{{ item.summary }}</p>
+            
+            <div class="card-tags">
+              {% for tag in item.tags %}
+                <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            
+            <a href="{{ item.url | relative_url }}" class="card-link">
+              Read Prep Notes <span class="arrow">&rarr;</span>
+            </a>
           </div>
         </div>
       {% endfor %}

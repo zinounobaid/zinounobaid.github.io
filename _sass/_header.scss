@@ -1,0 +1,227 @@
+// ============================================
+// _header.scss — Navigation & Mobile Menu
+// ============================================
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-nav;
+  padding: 20px 0;
+  transition: $transition;
+
+  // Glassmorphism on scroll
+  &.scrolled {
+    background: rgba(13, 15, 20, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+
+  [data-theme="light"] & {
+    &.scrolled {
+      background: rgba(245, 247, 250, 0.88);
+    }
+  }
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-lg;
+}
+
+// ---- Logo / Brand ----
+.site-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .brand-name {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .brand-title {
+    font-family: $font-mono;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+}
+
+// ---- Desktop Nav ----
+.desktop-nav {
+  display: none;
+  align-items: center;
+  gap: 4px;
+
+  @media (min-width: $bp-md) {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: $radius-sm;
+  transition: $transition-fast;
+
+  &:hover, &.active {
+    color: var(--cyan);
+    background: var(--cyan-glow);
+  }
+}
+
+// ---- Header Actions (theme toggle + mobile menu) ----
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+// ---- Theme Toggle Button ----
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: $transition;
+  color: var(--muted);
+  font-size: 0.9rem;
+
+  &:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    background: var(--cyan-glow);
+  }
+}
+
+// ---- Mobile Menu Toggle ----
+.mobile-toggle {
+  width: 36px;
+  height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: $radius-sm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: $transition;
+
+  @media (min-width: $bp-md) {
+    display: none;
+  }
+
+  span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--text);
+    border-radius: $radius-full;
+    transition: $transition;
+  }
+
+  &.open {
+    span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  }
+}
+
+// ---- Mobile Nav Drawer ----
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: min(320px, 85vw);
+  height: 100vh;
+  background: var(--bg-2);
+  border-left: 1px solid var(--border);
+  z-index: $z-overlay;
+  padding: 80px $space-lg $space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  transition: right 0.4s $ease-smooth;
+  overflow-y: auto;
+
+  &.open {
+    right: 0;
+  }
+
+  .nav-link {
+    display: block;
+    padding: $space-md;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+
+    &:last-child { border-bottom: none; }
+  }
+}
+
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: $z-overlay - 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: $transition;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Social links in header (desktop)
+.header-social {
+  display: none;
+  align-items: center;
+  gap: $space-sm;
+
+  @media (min-width: $bp-lg) {
+    display: flex;
+  }
+
+  a {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    transition: $transition-fast;
+
+    &:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      background: var(--cyan-glow);
+    }
+  }
+}

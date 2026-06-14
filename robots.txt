@@ -1,0 +1,4 @@
+---
+---
+User-agent: *
+Disallow: /interview_prep/

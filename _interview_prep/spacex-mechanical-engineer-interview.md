@@ -4,6 +4,8 @@ title: "SpaceX FTS Interview — Brad Murphy Call Prep"
 summary: "Mechanical Engineer, Flight Termination System (Starship) | 30-min Screening Call"
 date: 2026-04-27
 tags: [spacex, fts, mechanical-engineer, interview-prep]
+sitemap: false
+robots: noindex
 ---
 
 ## Mechanical Engineer, Flight Termination System (Starship) | 30-min call
@@ -19,7 +21,7 @@ tags: [spacex, fts, mechanical-engineer, interview-prep]
 - 8+ years aerospace design, manufacturing, and DO-160G qualification
 - BSME, University of Pittsburgh, Cum Laude 2016
 - Tools: SolidWorks, Composer, ERP/EPDM, Python automation, UIPath
-- Certified Professional SolidWorks | EIT Ohio
+- Certified Professional SolidWorks | FE / EIT
 
 **Key Numbers to Know Cold:**
 | Story | The Number |

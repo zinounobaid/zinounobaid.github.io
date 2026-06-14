@@ -1,0 +1,104 @@
+// ============================================
+// _responsive.scss — All Media Queries
+// ============================================
+
+// Fine-tune layout at each breakpoint
+
+// ---- Small (≤576px) ----
+@media (max-width: #{$bp-sm - 1}) {
+  .hero-right {
+    padding: $space-lg;
+
+    .intro-numbers {
+      grid-template-columns: 1fr 1fr;
+      gap: $space-sm;
+    }
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-md;
+  }
+
+  .stat-item .stat-value {
+    font-size: 1.8rem;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .article-content {
+    padding: $space-xl 0;
+
+    h2 { font-size: 1.35rem; }
+    h3 { font-size: 1.1rem; }
+  }
+
+  .filter-bar {
+    gap: 6px;
+    .filter-btn {
+      font-size: 0.65rem;
+      padding: 6px 12px;
+    }
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ---- Medium (768px–1023px) ----
+@media (min-width: $bp-md) and (max-width: #{$bp-lg - 1}) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+
+    .hero-left {
+      .hero-overline, .hero-dash { margin: 0 auto $space-lg; }
+      .hero-social { align-items: center; }
+    }
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ---- Large (≥1024px) ----
+@media (min-width: $bp-lg) {
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// ---- XL (≥1280px) ----
+@media (min-width: $bp-xl) {
+  .hero-left h1.hero-name {
+    font-size: 7rem;
+  }
+
+  .project-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// ---- Print ----
+@media print {
+  .site-header,
+  .back-to-top,
+  .scroll-indicator,
+  .hero-canvas,
+  #hero-canvas { display: none !important; }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .article-content { padding: 0; }
+}

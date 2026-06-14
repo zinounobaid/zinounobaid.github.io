@@ -1,3 +1,24 @@
 <footer class="site-footer">
-  Last updated: 04/2026
+  <div class="container footer-inner">
+    <div class="footer-copy">
+      &copy; {{ "now" | date: "%Y" }} Zinoun Obaid. All rights reserved.
+    </div>
+    
+    <div class="footer-social">
+      <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="mailto:{{ site.email }}" aria-label="Email">
+        <i class="far fa-envelope"></i>
+      </a>
+    </div>
+  </div>
 </footer>
+
+<!-- Back to top button -->
+<div class="back-to-top" id="back-to-top" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</div>
