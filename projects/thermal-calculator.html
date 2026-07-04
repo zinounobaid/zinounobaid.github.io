@@ -1,0 +1,169 @@
+---
+layout: project
+title: "Thermal Calculator — Transient Thermal Simulation Framework"
+summary: "A Python-based GPU-accelerated transient thermal simulation platform — a 'mini-Ansys' — that models heat transfer in a 316L stainless steel immersion heater tank, with an EMI/EMC microwave leakage extension module."
+tags: ["Thermal Simulation", "FEA", "Python", "CUDA", "EMI/EMC", "Simulation"]
+in_projects_index: true
+date: 2026-07-04
+---
+  <p><strong>Date:</strong> {{ page.date | date: "%B %Y" }}</p>
+  <p><strong>Type:</strong> Self-directed engineering simulation project</p>
+  <p><strong>Role:</strong> Sole developer — physics model, GPU kernels, database, GUI, visualization</p>
+  <p><strong>Tools:</strong> Python, CUDA/CuPy, OpenCascade, SQLite, PyVista, PySide6</p>
+
+  <h3>Overview</h3>
+  <p>
+    This project is a GPU-accelerated transient thermal simulation framework that models heat transfer
+    in a 316L stainless steel immersion heater tank. The core physics problem: industrial heater tanks
+    use a 1960s-era relay feedback loop with a single sensor, but the heater rods have significant
+    thermal inertia — they continue dumping stored heat into the water after the relay opens, causing
+    temperature overshoot. The simulation quantitatively proves that a <strong>2-of-3 sensor voting system</strong>
+    eliminates this overshoot.
+  </p>
+  <p>
+    The framework has been extended with a secondary module for <strong>EMI/EMC microwave leakage simulation</strong>
+    through oven door gaskets, using the same voxelization engine and database architecture.
+  </p>
+
+  <!-- SCREENSHOT ROW -->
+  <div class="image-row">
+    <figure>
+      <img
+        src="/assets/images/DIY-Thermal/thermal-calculator-gui.png"
+        alt="Thermal Calculator GUI showing the simulation dashboard and voxelized heater tank model">
+      <figcaption>PySide6 desktop GUI with tabbed dashboard, material manager, and simulation runner panels.</figcaption>
+    </figure>
+
+    <figure>
+      <img
+        src="/assets/images/DIY-Thermal/Thermalgraphing.png"
+        alt="Thermal graphing output showing temperature vs time for different control strategies">
+      <figcaption>Temperature vs. time comparison: 1-of-1 relay vs. 2-of-3 voting vs. smart inertia-aware control.</figcaption>
+    </figure>
+  </div>
+
+  <h3>The Problem</h3>
+  <p>
+    Industrial heater tanks use a single-sensor relay feedback loop (1-of-1). The 316L stainless steel
+    heater rods have significant thermal inertia — they continue dumping stored heat into the water after
+    the relay opens, causing temperature overshoot at the exhaust that can damage downstream components
+    or violate safety limits. The single sensor cannot detect this lag because it measures only one location.
+  </p>
+  <p>
+    The simulation quantitatively proves that a <strong>2-of-3 voting system</strong> (exhaust probe, bulk fluid probe,
+    rod surface probe) catches the overshoot earlier and makes better control decisions by accounting for
+    the rod's stored thermal energy, reducing overshoot magnitude and duration.
+  </p>
+
+  <h3>Technical Architecture</h3>
+
+  <h4>1. GPU-Accelerated Physics Simulation (CUDA/CuPy)</h4>
+  <ul>
+    <li>Wrote a custom CUDA RawKernel implementing the <strong>Möller-Trumbore ray-triangle intersection algorithm</strong> on the GPU, performing point-in-mesh tests for voxelization at >40M points per batch — a 10–100x speedup over CPU trimesh.contains() fallback</li>
+    <li>Built a CUDA RawKernel that computes the full 3D transient energy balance (conduction + convection boundary conditions) in a single pass on the GPU, with harmonic mean thermal conductivity at material interfaces and Newton cooling at exterior boundaries</li>
+    <li>Implemented automatic GPU/CPU fallback: if CuPy is unavailable or VRAM is insufficient (<10% headroom), the solver falls back to NumPy with identical numerical behavior</li>
+    <li>Memory management: tiled batch processing to stay within VRAM budgets across RTX 2000 (16 GB) and RTX 3080 (10 GB) cards, with CuPy memory pool cleanup between batches</li>
+  </ul>
+
+  <h4>2. Computational Geometry & CAD Interoperability</h4>
+  <ul>
+    <li>Built a STEP file loader using OpenCascade (via CadQuery/OCP + trimesh) that extracts solid bodies from SolidWorks exports, auto-detects part numbers via regex pattern matching, and auto-assigns roles (heater, sensor, plug, fluid, hardware) based on known part number patterns</li>
+    <li>Implemented re-import diffing: SHA256 hashing detects CAD changes between revisions, and the loader compares body-by-body (unchanged/changed/added/removed), only requiring user input for new or modified parts</li>
+    <li>Voxelization with sub-grid bounding-box pre-filtering: query points are generated only within each body's bounding box (with 1% margin for numerical safety), avoiding OOM on coarse grids</li>
+    <li>Resolved microscopic CAD watertightness issues with a 1-voxel morphological dilation seal, then inverse 3D flood-fill from the grid boundary to identify internal cavities (the water domain)</li>
+  </ul>
+
+  <h4>3. Transient Thermal Solver (Node-Based FVM)</h4>
+  <ul>
+    <li>Implemented explicit Euler time integration solving the full energy balance per node: ρ·cp·V · dT/dt = Σ(k_eff · A/d · ΔT) for conduction between any two adjacent nodes across any material interface</li>
+    <li>Convection at solid-fluid interfaces with configurable heat transfer coefficient</li>
+    <li>Sparse heater source term applied to only ~0.1% of voxels (no full-array allocation)</li>
+    <li>Auto-computed stable timestep via Fourier criterion (dt = 0.45 · dx² / α_max)</li>
+    <li>Enhanced fluid effective thermal conductivity (k × 15) to model natural convection via Nusselt correlation</li>
+    <li>Harmonic mean conductivity at material interfaces ensures physically correct thermal resistance between dissimilar materials</li>
+  </ul>
+
+  <h4>4. Database Design (Versioned Simulation History)</h4>
+  <ul>
+    <li>Designed and implemented two SQLite databases: <code>materials.db</code> (shared library of materials with CLI manager) and <code>projects.db</code> (full versioned computation tree — Project → CAD Revision → Body Tags → Mesh → Simulation Run → Results)</li>
+    <li>Creates a "git for computations" where every revision, mesh, and run is permanently reviewable and comparable</li>
+    <li>Database stores compressed (zlib) numpy arrays for mask blobs, enabling immediate mesh loading without re-voxelization</li>
+  </ul>
+
+  <h4>5. Control System Modelling</h4>
+  <ul>
+    <li><code>relay_1of1()</code>: Binary on/off hysteresis model of the existing 1960s relay loop (single sensor ± tolerance dead band)</li>
+    <li><code>voting_2of3()</code>: Three sensors (exhaust, fluid, rod) each cast a vote; heater fires only if ≥2 agree</li>
+    <li><code>smart_inertia()</code>: Enhanced 2/3 voting that checks rod temperature derivative (dT/dt) — if the rod is still heating the fluid from stored energy, it delays re-firing</li>
+    <li>Sensor thermal lag modelled as a two-stage RC low-pass filter (sleeve → potting compound → element), with time constants derived from physical geometry and material properties</li>
+  </ul>
+
+  <h4>6. 3D Visualization (PyVista)</h4>
+  <ul>
+    <li>Built an interactive 3D voxel viewer with GPU-accelerated point cloud generation (CuPy): for grids >200K voxels, coordinates are built entirely on the GPU and only visible (non-ambient) subsets are downloaded to CPU RAM</li>
+    <li>Material-colored rendering (blue = water, red = heater, green = hardware, yellow = sensor), semi-transparent CAD body overlay, sensor position markers</li>
+    <li>Keyboard controls: orthogonal slice planes, CAD toggle, liquid-only view, camera presets (X/Y/Z/iso views), legend toggle</li>
+  </ul>
+
+  <h4>7. PySide6 Desktop GUI</h4>
+  <ul>
+    <li>Modular panel-based architecture (material manager, DB manager, voxelizer, simulation runner, results viewer) with a tabbed dashboard</li>
+    <li>Real-time logging via QPlainTextEdit with auto-scroll, dynamic theme colors, and workflow-order navigation</li>
+    <li>Cross-modal interaction: clicking a mesh record in the DB manager opens the 3D voxel viewer; selecting a project shows its run history</li>
+  </ul>
+
+  <h4>8. EMI/EMC Microwave Leakage Simulation (Secondary Module)</h4>
+  <ul>
+    <li>Extended the framework to model microwave leakage through oven door gaskets, using the same voxelization engine and database architecture</li>
+    <li>Dedicated microwave solver module with standalone simulation panel, heatmap visualization dialog, and auto-recognition of door components (choke, gasket, cavity)</li>
+    <li>Addresses a real production issue: historically failed 2.45 GHz frequency on microwaves built at Dynamo</li>
+  </ul>
+
+  <h3>Key Problem-Solving Examples</h3>
+
+  <h4>The Water Domain Bug</h4>
+  <p>
+    The simulation produced NaN for fluid temperatures because the water fill algorithm assumed every Z-slice
+    was a closed ring. The real CAD has inlet/outlet holes and heater rod penetrations that break the 2D
+    boundary. The fix required shifting from a 2D slice-by-slice approach to a true 3D flood-fill with
+    morphological sealing — a fundamentally different algorithm that took three iterations to get right.
+  </p>
+
+  <h4>The Voxel Bleed Bug</h4>
+  <p>
+    Material IDs were "bleeding" between adjacent bodies because the original voxelization applied bodies
+    in arbitrary order. A heater rod that overlapped a fluid domain boundary would sometimes get overwritten
+    by ambient ID. The fix was a priority-sorted approach: bodies are processed in ascending priority order
+    (part=5 → sensor=8 → heater=10), so higher-priority materials always win at overlapping voxels.
+  </p>
+
+  <h4>The OOM Crisis</h4>
+  <p>
+    At 0.5mm resolution (70M voxels), generating all query points at once required ~3 GB of RAM just for
+    coordinates. The fix was a bounding-box pre-filter: for each body, only generate points within its
+    bounding box (typically <5% of the full grid). This made 0.5mm voxelization feasible on consumer GPUs.
+  </p>
+
+  <h3>Results & Current Status</h3>
+  <ul>
+    <li>Complete end-to-end pipeline: STEP file → voxelization → simulation → results database → 3D visualization</li>
+    <li>Three control strategies implemented and comparable side-by-side</li>
+    <li>GPU acceleration achieves 10–100x speedup over CPU-only approaches</li>
+    <li>Versioned database creates a permanent, reviewable record of every computation</li>
+    <li>EMI/EMC microwave leakage module extends the framework to a real production problem (2.45 GHz harmonics)</li>
+    <li>Next steps: fix remaining water domain edge cases, run first physically valid simulation, cross-validate with physical test data</li>
+  </ul>
+
+  <h3>Notes & Future Improvements</h3>
+  <p>
+    The project reached a complete end-to-end pipeline but has never produced a physically valid simulation
+    run due to the water domain bug. Priority next steps include fixing the water fill algorithm (short-term:
+    add solid plugs in SolidWorks to seal inlet/outlet holes; long-term: implement directed flood-fill from
+    a known interior seed point), running the first valid end-to-end simulation, and cross-validating against
+    physical test data from the production floor.
+  </p>
+  <p>
+    Future physics improvements include modelling heater thermal lag as two concentric bodies (inner element
+    + outer sheath), adding advection terms for recovery time simulation under continuous flow draw, and
+    running a mesh convergence study to confirm temperature fields stabilize.
+  </p>
